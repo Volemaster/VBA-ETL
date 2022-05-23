@@ -18,13 +18,13 @@ Private mAutomaticTearDown As Boolean
 Private mConverter As ITableConverter
 Private mFieldProfiles   As FieldInfoCollection
 
-Private Property Get TempTable() As ITempTable
-  Set TempTable = Me
+Private Property Get tempTable() As ITempTable
+  Set tempTable = Me
 End Property
 
 Private Sub Class_Terminate()
   If mAutomaticTearDown Then
-    TempTable.Drop
+    tempTable.Drop
   End If
 End Sub
 
@@ -129,6 +129,17 @@ Public Function GetDropText() As Variant
     GetDropText = "DROP TABLE IF EXISTS " & mConverter.formatter.QuoteName(CStr(mTableName)) & ";" & vbCrLf
   End If
 End Function
+
+Private Property Get ITempTable_GetTableWriter(Optional fieldProfiles As FieldInfoCollection) As ITableWriter
+  Dim writer As SqlTableWriter
+  If IsNull(mTableName) Then
+    Err.Raise CustomErrorEnum.erNotProperlyInitializedException, "SqlTempTable.GetTableWriter", "The name of the temporary table must be set to get a writer to that table."
+    Exit Property
+  End If
+  Set writer = mConverter.GetFactory().NewTableWriter()
+  writer.Initialize mCn, mConverter, CStr(mTableName), fieldProfiles
+  Set ITempTable_GetTableWriter = writer
+End Property
 
 Private Property Get ITempTable_TableName() As Variant
   ITempTable_TableName = mTableName

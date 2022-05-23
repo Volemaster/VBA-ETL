@@ -13,12 +13,11 @@ Option Explicit
 Public Property Get Length() As Long
 End Property
 
-Public Sub Add(value As String)
-End Sub
+Public Function Add(value As String) As IStringBuilder
+End Function
 
 Public Function ToString() As String
 End Function
 
 Public Sub Clear()
 End Sub
-

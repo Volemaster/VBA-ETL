@@ -22,9 +22,10 @@ Private Sub Class_Initialize()
   mStringBuilder.Capacity = &H4000000
 End Sub
 
-Private Sub IStringBuilder_Add(value As String)
+Private Function IStringBuilder_Add(value As String) As IStringBuilder
   mStringBuilder.Append_3 value
-End Sub
+  Set IStringBuilder_Add = Me
+End Function
 
 Private Sub IStringBuilder_Clear()
   With mStringBuilder

@@ -10,6 +10,7 @@ Attribute VB_Exposed = True
 Option Explicit
 
 Implements ITableConverter
+Implements IFactory
 
 Private converter As IFieldConverter
 Private mFormatter As IFormatRules
@@ -21,6 +22,20 @@ Private Sub Class_Initialize()
   Set converterSetup = converter
   converterSetup.Setup mFormatter
 End Sub
+'
+'Private Function IFactory_NewTableWriter() As ITableWriter
+'End Function
+
+Private Function IFactory_NewTableWriter() As ITableWriter
+  Set IFactory_NewTableWriter = New SqlTableWriter
+End Function
+
+Private Function IFactory_NewTempTable(Optional cn As ADODB.Connection, Optional tableConverter As ITableConverter, Optional automaticTearDown As Boolean = False) As ITempTable
+  Set IFactory_NewTempTable = New SqlTempTable
+  Dim Setup As ITempTableSetup
+  Set Setup = IFactory_NewTempTable
+  Setup.Setup cn, tableConverter, automaticTearDown
+End Function
 
 Private Property Get ITableConverter_Formatter() As IFormatRules
   Set ITableConverter_Formatter = mFormatter
@@ -34,6 +49,10 @@ Public Function GetFields(rs As ADODB.Recordset) As FieldInfo
     result = result & converter.GetDeclaration(fld)
   Next
 
+End Function
+
+Private Function ITableConverter_GetFactory() As IFactory
+  Set ITableConverter_GetFactory = Me
 End Function
 
 Private Function ITableConverter_GetFields(rs As ADODB.Recordset) As FieldInfoCollection

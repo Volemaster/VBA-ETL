@@ -22,6 +22,10 @@ Public Event SentRecords(recordCount As Long)
 Public Event Waiting()
 Public Event LoadComplete(recordCount As Long)
 
+Public Property Get AsITableWriter() As ITableWriter
+  Set AsITableWriter = Me
+End Property
+
 Public Property Let PrintStatus(value As Boolean)
   mPrintStatus = value
 End Property
@@ -38,6 +42,7 @@ Public Sub Initialize(cn As ADODB.Connection, tableConverter As ITableConverter,
   Set mFieldProfiles = fieldProfiles
   mQuotedTableName = quotedTableName
 End Sub
+
 
 Private Sub ITableWriter_Delete()
   mCmd.CommandText = "DELETE FROM " & mQuotedTableName

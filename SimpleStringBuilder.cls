@@ -29,7 +29,7 @@ Private Sub Class_Initialize()
   mLength = 0
 End Sub
 
-Private Sub IStringBuilder_Add(value As String)
+Private Function IStringBuilder_Add(value As String) As IStringBuilder
   Dim l As Long
   l = Len(value)
   If mLength + l > mSize Then
@@ -38,7 +38,8 @@ Private Sub IStringBuilder_Add(value As String)
   End If
   Mid$(mValue, mLength + 1, l) = value
   mLength = mLength + l
-End Sub
+  Set IStringBuilder_Add = Me
+End Function
 
 Private Function IStringBuilder_ToString() As String
   IStringBuilder_ToString = Left$(mValue, mLength)

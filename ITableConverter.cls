@@ -26,3 +26,6 @@ End Property
 Public Function GetFields(rs As ADODB.Recordset) As FieldInfoCollection
   
 End Function
+
+Public Function GetFactory() As IFactory
+End Function

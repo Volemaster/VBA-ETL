@@ -21,11 +21,11 @@ Public Property Get converter() As ITableConverter
 
 End Property
 
-Public Property Get AutomaticTearDown() As Boolean
+Public Property Get automaticTearDown() As Boolean
 
 End Property
 
-Public Property Let AutomaticTearDown(value As Boolean)
+Public Property Let automaticTearDown(value As Boolean)
 
 End Property
 
@@ -37,4 +37,7 @@ Public Sub Drop()
 
 End Sub
 
+Public Property Get GetTableWriter(Optional fieldProfiles As FieldInfoCollection) As ITableWriter
+
+End Property
 
